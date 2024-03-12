@@ -32,12 +32,15 @@ def get_saved_config_cisco(host, username, password, enable_secret):
     # Creates the connection to the device.
     net_connect = ConnectHandler(**cisco_ios)
     net_connect.enable()
+    #any reason not to use find_prompt from netmiko? i think this will save you alot of time and resources.
+    hostname = net_connect.find_prompt()
     # Gets the running configuration.
     output = net_connect.send_command("show run")
     # Gets and splits the hostname for the output file name.
-    hostname = net_connect.send_command("show conf | i hostname")
-    hostname = hostname.split()
-    hostname = hostname[1]
+    # hostname = net_connect.send_command("show conf | i hostname")
+    # hostname = hostname.split()
+    # hostname = hostname[1]
+    
     # Creates the file name, which is the hostname, and the date and time.
     fileName = hostname + "_" + dt_string
     # Creates the text file in the backup-config folder with the special name, and writes to it.
